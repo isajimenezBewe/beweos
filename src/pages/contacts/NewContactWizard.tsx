@@ -97,10 +97,10 @@ export const NewContactWizard: React.FC<NewContactWizardProps> = ({ isOpen, onCl
       size="2xl"
       radius="lg"
       classNames={{
-        base: "bg-white",
-        header: "border-b border-gray-200",
+        base: "bg-content1",
+        header: "border-b border-divider",
         body: "py-6",
-        footer: "border-t border-gray-200"
+        footer: "border-t border-divider"
       }}
     >
       <ModalContent>
@@ -183,29 +183,29 @@ export const NewContactWizard: React.FC<NewContactWizardProps> = ({ isOpen, onCl
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="bg-gray-50 rounded-2xl p-6">
-                        <h4 className="font-semibold text-gray-900 mb-4">Resumen del contacto</h4>
+                      <div className="bg-content2 rounded-2xl p-6">
+                        <h4 className="font-semibold text-foreground mb-4">Resumen del contacto</h4>
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Nombre:</span>
+                            <span className="text-default-500">Nombre:</span>
                             <span className="font-medium">{formData.nombre}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Email:</span>
+                            <span className="text-default-500">Email:</span>
                             <span className="font-medium">{formData.email}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Teléfono:</span>
+                            <span className="text-default-500">Teléfono:</span>
                             <span className="font-medium">{formData.telefono}</span>
                           </div>
                           {formData.empresa && (
                             <div className="flex justify-between">
-                              <span className="text-gray-500">Empresa:</span>
+                              <span className="text-default-500">Empresa:</span>
                               <span className="font-medium">{formData.empresa}</span>
                             </div>
                           )}
                           <div className="flex justify-between">
-                            <span className="text-gray-500">Estado:</span>
+                            <span className="text-default-500">Estado:</span>
                             <Chip size="sm" color={formData.estado === 'activo' ? 'success' : 'default'} variant="flat">
                               {formData.estado}
                             </Chip>
@@ -213,7 +213,7 @@ export const NewContactWizard: React.FC<NewContactWizardProps> = ({ isOpen, onCl
                         </div>
                       </div>
                       
-                      <div className="text-center text-gray-500">
+                      <div className="text-center text-default-500">
                         <p>¿Todo listo? Presiona crear para añadir el contacto.</p>
                       </div>
                     </div>

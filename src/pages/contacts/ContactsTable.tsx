@@ -88,7 +88,7 @@ export const ContactsTable: React.FC = () => {
       >
         {/* Header */}
         <div className="mb-4 md:mb-6">
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 md:mb-6">Contactos</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground mb-4 md:mb-6">Contactos</h1>
           
           {/* Toolbar */}
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 md:gap-4">
@@ -102,7 +102,7 @@ export const ContactsTable: React.FC = () => {
                 radius="lg"
                 classNames={{
                   base: "w-full sm:max-w-xs",
-                  inputWrapper: "bg-gray-100 border-gray-200 hover:bg-gray-200"
+                  inputWrapper: "bg-content2 border-divider hover:bg-content3"
                 }}
               />
 
@@ -189,13 +189,13 @@ export const ContactsTable: React.FC = () => {
                 key={contact.id}
                 isPressable
                 onPress={() => setSelectedContactId(contact.id)}
-                className="bg-white shadow-sm hover:shadow-md transition-shadow"
+                className="bg-content1 shadow-sm hover:shadow-md transition-shadow"
               >
                 <CardBody className="p-4">
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 truncate">{contact.nombre}</h3>
-                      <p className="text-sm text-gray-500 truncate">{contact.empresa}</p>
+                      <h3 className="font-semibold text-foreground truncate">{contact.nombre}</h3>
+                      <p className="text-sm text-default-500 truncate">{contact.empresa}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-2">
                       <StatusBadge status={contact.estado} />
@@ -209,16 +209,16 @@ export const ContactsTable: React.FC = () => {
                   
                   <div className="space-y-1 text-sm">
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400">📧</span>
-                      <span className="text-gray-600 truncate flex-1">{contact.email}</span>
+                      <span className="text-default-400">📧</span>
+                      <span className="text-default-600 truncate flex-1">{contact.email}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400">📱</span>
-                      <span className="text-gray-600">{contact.telefono}</span>
+                      <span className="text-default-400">📱</span>
+                      <span className="text-default-600">{contact.telefono}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-400">📅</span>
-                      <span className="text-gray-600">
+                      <span className="text-default-400">📅</span>
+                      <span className="text-default-600">
                         Últ. actividad: {contact.ultimaActividad.toLocaleDateString()}
                       </span>
                     </div>
@@ -245,9 +245,9 @@ export const ContactsTable: React.FC = () => {
             aria-label="Tabla de contactos"
             classNames={{
               base: "max-h-full",
-              wrapper: "bg-white rounded-2xl shadow-soft max-h-full overflow-auto",
-              th: "bg-gray-50 text-gray-600 font-medium text-sm",
-              td: "text-gray-900 text-sm",
+              wrapper: "bg-content1 rounded-2xl shadow-soft max-h-full overflow-auto",
+              th: "bg-content2 text-default-600 font-medium text-sm",
+              td: "text-foreground text-sm",
               table: "min-w-full"
             }}
             selectionMode="single"
@@ -265,7 +265,7 @@ export const ContactsTable: React.FC = () => {
             </TableHeader>
             <TableBody items={filteredContacts}>
               {(contact) => (
-                <TableRow key={contact.id} className="cursor-pointer hover:bg-gray-50">
+                <TableRow key={contact.id} className="cursor-pointer hover:bg-content2">
                   <TableCell className="font-medium">{contact.nombre}</TableCell>
                   <TableCell>{contact.empresa}</TableCell>
                   <TableCell>
@@ -308,7 +308,7 @@ export const ContactsTable: React.FC = () => {
         </div>
 
         {/* Contact count */}
-        <div className="mt-3 md:mt-4 text-xs sm:text-sm text-gray-500">
+        <div className="mt-3 md:mt-4 text-xs sm:text-sm text-default-500">
           Mostrando {filteredContacts.length} de {contacts.length} contactos
         </div>
       </motion.div>

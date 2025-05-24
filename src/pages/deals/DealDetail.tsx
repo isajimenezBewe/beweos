@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { useDeals, DealStage } from '@/contexts/DealsContext';
 import { useContacts } from '@/contexts/ContactsContext';
 import { StageBadge } from '@/components/shared/Badge';
+import { Switch } from '@heroui/switch';
 
 interface DealDetailProps {
   dealId: string | null;
@@ -48,12 +49,12 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
           animate="visible"
           exit="exit"
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed right-0 top-0 h-full w-[480px] bg-white shadow-soft-lg z-40 flex flex-col"
+          className="fixed right-0 top-0 h-full w-[480px] bg-content1 shadow-soft-lg z-40 flex flex-col"
         >
           {/* Header */}
-          <div className="border-b border-gray-200 p-6">
+          <div className="border-b border-divider p-6">
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-500 mb-3 flex items-center gap-2">
+            <div className="text-sm text-default-500 mb-3 flex items-center gap-2">
               <Link to={`/contacts/${contact.id}`} className="hover:text-primary">
                 {contact.nombre}
               </Link>
@@ -62,7 +63,12 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
             </div>
             
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">{deal.nombreNegocio}</h2>
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold text-foreground">{deal.nombreNegocio}</h2>
+                <p className="text-sm text-default-500 mt-1">
+                  {contact?.nombre} • {contact?.empresa}
+                </p>
+              </div>
               
               <Button
                 isIconOnly
@@ -76,20 +82,20 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
           </div>
 
           {/* Summary Info */}
-          <div className="p-6 space-y-4 border-b border-gray-200">
+          <div className="p-6 space-y-4 border-b border-divider">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-500">Plan</p>
-                <Chip size="md" variant="flat" radius="md">{deal.plan}</Chip>
+                <p className="text-sm text-default-500">Plan</p>
+                <p className="text-lg font-semibold">{deal.plan}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">MRR</p>
-                <p className="font-semibold text-lg">€{deal.mrr.toLocaleString()}/mes</p>
+                <p className="text-sm text-default-500">MRR</p>
+                <p className="text-lg font-semibold">€{deal.mrr}/mes</p>
               </div>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500 mb-2">Etapa</p>
+              <p className="text-sm text-default-500 mb-2">Etapa</p>
               {isAdmin ? (
                 <Select
                   selectedKeys={[deal.etapa]}
@@ -124,16 +130,11 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
             <Divider />
 
             <div>
-              <p className="text-sm text-gray-500 mb-2">Health Score</p>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full ${
-                      deal.healthScore >= 80 ? 'bg-green-500' :
-                      deal.healthScore >= 60 ? 'bg-yellow-500' :
-                      deal.healthScore >= 40 ? 'bg-orange-500' :
-                      'bg-red-500'
-                    }`}
+              <p className="text-sm text-default-500 mb-2">Health Score</p>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 bg-content3 rounded-full h-2">
+                  <div
+                    className="bg-primary h-full rounded-full transition-all"
                     style={{ width: `${deal.healthScore}%` }}
                   />
                 </div>
@@ -164,35 +165,35 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
 
               <Tab key="integrations" title="Integraciones">
                 <div className="py-4 space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="font-medium">Google Analytics</span>
-                    <Chip 
-                      size="sm" 
-                      color={deal.integraciones.googleAnalytics ? 'success' : 'default'}
-                      variant="flat"
-                    >
-                      {deal.integraciones.googleAnalytics ? 'Activo' : 'Inactivo'}
-                    </Chip>
+                  <div className="flex items-center justify-between p-3 bg-content2 rounded-lg">
+                    <span className="text-sm font-medium">Google Analytics</span>
+                    <Switch
+                      size="sm"
+                      isSelected={deal.integraciones.googleAnalytics}
+                      onValueChange={(value) => 
+                        changeStage(deal.id, value ? 'prospecto' : 'lead' as DealStage)
+                      }
+                    />
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="font-medium">Meta Ads</span>
-                    <Chip 
-                      size="sm" 
-                      color={deal.integraciones.metaAds ? 'success' : 'default'}
-                      variant="flat"
-                    >
-                      {deal.integraciones.metaAds ? 'Activo' : 'Inactivo'}
-                    </Chip>
+                  <div className="flex items-center justify-between p-3 bg-content2 rounded-lg">
+                    <span className="text-sm font-medium">Meta Ads</span>
+                    <Switch
+                      size="sm"
+                      isSelected={deal.integraciones.metaAds}
+                      onValueChange={(value) => 
+                        changeStage(deal.id, value ? 'prospecto' : 'lead' as DealStage)
+                      }
+                    />
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <span className="font-medium">Google Ads</span>
-                    <Chip 
-                      size="sm" 
-                      color={deal.integraciones.googleAds ? 'success' : 'default'}
-                      variant="flat"
-                    >
-                      {deal.integraciones.googleAds ? 'Activo' : 'Inactivo'}
-                    </Chip>
+                  <div className="flex items-center justify-between p-3 bg-content2 rounded-lg">
+                    <span className="text-sm font-medium">Google Ads</span>
+                    <Switch
+                      size="sm"
+                      isSelected={deal.integraciones.googleAds}
+                      onValueChange={(value) => 
+                        changeStage(deal.id, value ? 'prospecto' : 'lead' as DealStage)
+                      }
+                    />
                   </div>
                 </div>
               </Tab>
@@ -205,10 +206,18 @@ export const DealDetail: React.FC<DealDetailProps> = ({ dealId, onClose }) => {
                 </div>
               </Tab>
 
-              <Tab key="timeline" title="Timeline">
-                <div className="py-4">
-                  <p className="text-gray-500 text-center py-8">
-                    Timeline de actividades próximamente
+              <Tab key="timeline" title="Timeline IA">
+                <div className="py-4 px-6">
+                  <p className="text-default-500 text-center py-8">
+                    Timeline de actividades (IA) próximamente
+                  </p>
+                </div>
+              </Tab>
+
+              <Tab key="files" title="Archivos">
+                <div className="py-4 px-6">
+                  <p className="text-default-500 text-center py-8">
+                    Gestión de archivos próximamente
                   </p>
                 </div>
               </Tab>

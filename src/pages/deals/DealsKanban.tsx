@@ -15,10 +15,10 @@ import { NewDealModal } from './NewDealModal';
 import { Link } from 'react-router-dom';
 
 const stageColumns: { key: DealStage; title: string; color: string; bgColor: string }[] = [
-  { key: 'lead', title: 'Lead', color: 'text-gray-800', bgColor: 'bg-gray-100' },
-  { key: 'prospecto', title: 'Prospecto', color: 'text-blue-800', bgColor: 'bg-blue-100' },
-  { key: 'cliente_ganado', title: 'Cliente Ganado', color: 'text-green-800', bgColor: 'bg-green-100' },
-  { key: 'cliente_perdido', title: 'Cliente Perdido', color: 'text-red-800', bgColor: 'bg-red-100' },
+  { key: 'lead', title: 'Lead', color: 'text-default-700', bgColor: 'bg-default-100' },
+  { key: 'prospecto', title: 'Prospecto', color: 'text-primary-700', bgColor: 'bg-primary-100' },
+  { key: 'cliente_ganado', title: 'Cliente Ganado', color: 'text-success-700', bgColor: 'bg-success-100' },
+  { key: 'cliente_perdido', title: 'Cliente Perdido', color: 'text-danger-700', bgColor: 'bg-danger-100' },
 ];
 
 export const DealsKanban: React.FC = () => {
@@ -76,10 +76,10 @@ export const DealsKanban: React.FC = () => {
 
   const getStageColorClasses = (stage: DealStage) => {
     const colors = {
-      lead: 'bg-gray-100 text-gray-800',
-      prospecto: 'bg-blue-100 text-blue-800',
-      cliente_ganado: 'bg-green-100 text-green-800',
-      cliente_perdido: 'bg-red-100 text-red-800'
+      lead: 'bg-default-100 text-default-700',
+      prospecto: 'bg-primary-100 text-primary-700',
+      cliente_ganado: 'bg-success-100 text-success-700',
+      cliente_perdido: 'bg-danger-100 text-danger-700'
     };
     return colors[stage];
   };
@@ -149,18 +149,18 @@ export const DealsKanban: React.FC = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <span className="text-2xl">💼</span>
-              <h1 className="text-xl font-semibold text-gray-900">Negocios</h1>
+              <h1 className="text-xl font-semibold text-foreground">Negocios</h1>
             </div>
             
             <div className="flex items-center gap-3">
               {/* View Toggle */}
-              <div className="flex bg-gray-100 rounded-2xl p-1">
+              <div className="flex bg-default-100 rounded-2xl p-1">
                 <Button
                   size="sm"
                   variant={viewMode === 'kanban' ? 'solid' : 'light'}
                   onPress={() => setViewMode('kanban')}
                   radius="lg"
-                  className={viewMode === 'kanban' ? 'bg-white shadow-sm' : ''}
+                  className={viewMode === 'kanban' ? 'bg-content1 shadow-sm' : ''}
                 >
                   <span className="text-sm">⚏</span>
                 </Button>
@@ -171,7 +171,7 @@ export const DealsKanban: React.FC = () => {
                   radius="lg"
                   as={Link}
                   to="/deals/list"
-                  className={viewMode === 'list' ? 'bg-white shadow-sm' : ''}
+                  className={viewMode === 'list' ? 'bg-content1 shadow-sm' : ''}
                 >
                   <span className="text-sm">☰</span>
                 </Button>
@@ -231,7 +231,7 @@ export const DealsKanban: React.FC = () => {
                     <Chip 
                       size="sm" 
                       variant="flat" 
-                      className="bg-white/70 text-gray-700"
+                      className="bg-content1/70 text-default-700"
                     >
                       {dealsByStage[column.key].length}
                     </Chip>
@@ -240,7 +240,7 @@ export const DealsKanban: React.FC = () => {
 
                 {/* Drop Zone */}
                 <div 
-                  className={`space-y-4 min-h-[200px] p-2 rounded-2xl transition-all ${
+                  className={`drop-zone space-y-4 min-h-[200px] p-2 rounded-2xl transition-all ${
                     dragOverStage === column.key 
                       ? 'bg-primary/10 border-2 border-dashed border-primary' 
                       : ''
@@ -261,7 +261,7 @@ export const DealsKanban: React.FC = () => {
                           isPressable
                           onPress={() => setSelectedDealId(deal.id)}
                           classNames={{
-                            base: `shadow-sm hover:shadow-md transition-all rounded-2xl border-0 ${
+                            base: `shadow-sm hover:shadow-md transition-all rounded-2xl border border-default-200 ${
                               draggedDealId === deal.id ? 'opacity-50' : ''
                             }`
                           }}
@@ -269,7 +269,7 @@ export const DealsKanban: React.FC = () => {
                           <CardBody className="p-4 space-y-3">
                             {/* Deal Name and Menu */}
                             <div className="flex items-start justify-between">
-                              <h4 className="font-medium text-gray-900 text-sm leading-tight">
+                              <h4 className="font-medium text-foreground text-sm leading-tight">
                                 {deal.nombreNegocio}
                               </h4>
                               <Dropdown>
@@ -282,7 +282,7 @@ export const DealsKanban: React.FC = () => {
                                     className="min-w-unit-6 w-unit-6 h-unit-6"
                                     onClick={(e) => e.stopPropagation()}
                                   >
-                                    <span className="text-gray-400">⋯</span>
+                                    <span className="text-default-400">⋯</span>
                                   </Button>
                                 </DropdownTrigger>
                                 <DropdownMenu onAction={(key) => changeStage(deal.id, key as DealStage)}>
@@ -319,7 +319,7 @@ export const DealsKanban: React.FC = () => {
                               >
                                 {deal.plan}
                               </Chip>
-                              <span className="font-semibold text-gray-900 text-sm">
+                              <span className="font-semibold text-foreground text-sm">
                                 €{deal.mrr.toLocaleString()}
                               </span>
                             </div>
@@ -332,14 +332,14 @@ export const DealsKanban: React.FC = () => {
                                     size="sm" 
                                     variant="flat"
                                     radius="full"
-                                    className="bg-purple-100 text-purple-800 text-xs"
+                                    className="bg-secondary-100 text-secondary-700 text-xs"
                                   >
                                     <span className="mr-1">🏷</span>
                                     Trial
                                   </Chip>
                                 )}
                                 {deal.impago && (
-                                  <span className="text-red-500 text-sm">⚠️</span>
+                                  <span className="text-danger text-sm">⚠️</span>
                                 )}
                               </div>
                               <Chip
@@ -359,7 +359,7 @@ export const DealsKanban: React.FC = () => {
                   
                   {/* Empty state for columns */}
                   {dealsByStage[column.key].length === 0 && (
-                    <div className="flex items-center justify-center h-32 text-gray-400 text-sm">
+                    <div className="flex items-center justify-center h-32 text-default-400 text-sm">
                       {dragOverStage === column.key ? (
                         <span>Suelta aquí para mover</span>
                       ) : (

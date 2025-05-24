@@ -174,10 +174,10 @@ export const NewDealModal: React.FC<NewDealModalProps> = ({ isOpen, onClose }) =
       size="3xl"
       radius="lg"
       classNames={{
-        base: "bg-white",
-        header: "border-b border-gray-200",
+        base: "bg-content1",
+        header: "border-b border-divider",
         body: "py-6",
-        footer: "border-t border-gray-200"
+        footer: "border-t border-divider"
       }}
     >
       <ModalContent>
@@ -406,36 +406,36 @@ export const NewDealModal: React.FC<NewDealModalProps> = ({ isOpen, onClose }) =
                     <div className="space-y-4">
                       <Card>
                         <CardBody className="space-y-4">
-                          <h4 className="font-semibold text-gray-900">Resumen del negocio</h4>
+                          <h4 className="font-semibold text-foreground">Resumen del negocio</h4>
                           
                           {createNewContact && (
-                            <div className="bg-blue-50 p-3 rounded-lg">
-                              <p className="text-sm font-medium text-blue-900 mb-1">Nuevo contacto</p>
-                              <p className="text-sm text-blue-700">{newContactData.nombre}</p>
-                              <p className="text-sm text-blue-700">{newContactData.email}</p>
+                            <div className="bg-primary/10 p-3 rounded-lg">
+                              <p className="text-sm font-medium text-primary mb-1">Nuevo contacto</p>
+                              <p className="text-sm text-primary/70">{newContactData.nombre}</p>
+                              <p className="text-sm text-primary/70">{newContactData.email}</p>
                             </div>
                           )}
                           
                           <div className="space-y-2">
                             <div className="flex justify-between">
-                              <span className="text-gray-500">Negocio:</span>
+                              <span className="text-default-500">Negocio:</span>
                               <span className="font-medium">{formData.nombreNegocio}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-500">Etapa:</span>
+                              <span className="text-default-500">Etapa:</span>
                               <StageBadge stage={formData.etapa} />
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-500">Plan:</span>
+                              <span className="text-default-500">Plan:</span>
                               <Chip size="sm" variant="flat">{formData.plan}</Chip>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-500">MRR:</span>
+                              <span className="text-default-500">MRR:</span>
                               <span className="font-medium">€{formData.mrr}/mes</span>
                             </div>
                             {formData.trial && (
                               <div className="flex justify-between">
-                                <span className="text-gray-500">Trial:</span>
+                                <span className="text-default-500">Trial:</span>
                                 <Chip size="sm" color="secondary" variant="flat">Activo</Chip>
                               </div>
                             )}
@@ -443,7 +443,7 @@ export const NewDealModal: React.FC<NewDealModalProps> = ({ isOpen, onClose }) =
                         </CardBody>
                       </Card>
                       
-                      <div className="text-center text-gray-500">
+                      <div className="text-center text-default-500">
                         <p>¿Todo listo? Presiona crear para añadir el negocio.</p>
                       </div>
                     </div>

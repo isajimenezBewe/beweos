@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ThemeSelector } from '../components/ThemeSelector';
 
 interface NavItem {
   path: string;
@@ -13,15 +14,16 @@ export const AppLayout: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems: NavItem[] = [
+    { path: '/home', icon: '🏠', label: 'Home' },
     { path: '/contacts', icon: '📇', label: 'Contactos' },
     { path: '/deals', icon: '💼', label: 'Negocios' },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <motion.nav
-        className="bg-white border-r border-gray-200 h-screen sticky top-0 flex flex-col"
+        className="bg-content1 border-r border-divider h-screen sticky top-0 flex flex-col"
         initial={{ width: '64px' }}
         animate={{ width: isExpanded ? '240px' : '64px' }}
         transition={{ duration: 0.2, ease: 'easeInOut' }}
@@ -29,16 +31,16 @@ export const AppLayout: React.FC = () => {
         onMouseLeave={() => setIsExpanded(false)}
       >
         {/* Logo */}
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-divider">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
               B
             </div>
             {isExpanded && (
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="font-semibold text-gray-900"
+                className="font-semibold text-foreground"
               >
                 BeweOS
               </motion.span>
@@ -59,7 +61,7 @@ export const AppLayout: React.FC = () => {
                   flex items-center gap-3 px-4 py-3 mx-2 rounded-2xl transition-all
                   ${isActive 
                     ? 'bg-primary/10 text-primary' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    : 'text-default-600 hover:bg-content2'
                   }
                 `}
               >
@@ -79,9 +81,9 @@ export const AppLayout: React.FC = () => {
         </div>
 
         {/* User Section */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-divider">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-content3 rounded-full flex items-center justify-center">
               <span className="text-sm">👤</span>
             </div>
             {isExpanded && (
@@ -90,8 +92,8 @@ export const AppLayout: React.FC = () => {
                 animate={{ opacity: 1 }}
                 className="text-sm"
               >
-                <p className="font-medium text-gray-900">Admin User</p>
-                <p className="text-gray-500">admin@beweos.com</p>
+                <p className="font-medium text-foreground">Admin User</p>
+                <p className="text-default-500">admin@beweos.com</p>
               </motion.div>
             )}
           </div>
@@ -100,7 +102,18 @@ export const AppLayout: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        {/* Header */}
+        <header className="bg-content1 border-b border-divider sticky top-0 z-10">
+          <div className="px-6 py-4 flex items-center justify-between">
+            <h1 className="text-xl font-semibold text-foreground">BeweOS</h1>
+            <ThemeSelector />
+          </div>
+        </header>
+        
+        {/* Page Content */}
+        <div className="p-6 bg-background">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

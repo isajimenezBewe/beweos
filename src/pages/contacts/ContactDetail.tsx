@@ -59,12 +59,12 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
           animate="visible"
           exit="exit"
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed right-0 top-0 h-full w-[380px] bg-white shadow-soft-lg z-40 flex flex-col"
+          className="fixed right-0 top-0 h-full w-[380px] bg-content1 shadow-soft-lg z-40 flex flex-col"
         >
           {/* Header */}
-          <div className="border-b border-gray-200 p-6">
+          <div className="border-b border-divider p-6">
             {fromDeal && dealName && (
-              <div className="text-sm text-gray-500 mb-2 flex items-center gap-2">
+              <div className="text-sm text-default-500 mb-2 flex items-center gap-2">
                 <span>{dealName}</span>
                 <span>›</span>
                 <span>Contacto</span>
@@ -77,10 +77,10 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
                   name={contact.nombre}
                   size="lg"
                   color="primary"
-                  className="text-white"
+                  className="text-primary-foreground"
                 />
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900">{contact.nombre}</h2>
+                  <h2 className="text-xl font-semibold text-foreground">{contact.nombre}</h2>
                   <StatusBadge status={contact.estado} />
                 </div>
               </div>
@@ -116,11 +116,13 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto">
-            <Tabs aria-label="Opciones" className="px-6 pt-4">
+            <Tabs 
+              aria-label="Opciones" 
+            >
               <Tab key="info" title="Información">
-                <div className="space-y-4 py-4">
+                <div className="space-y-4 py-4 px-6">
                   <div>
-                    <label className="text-sm text-gray-500">Nombre</label>
+                    <label className="text-sm text-default-500">Nombre</label>
                     {isEditing ? (
                       <Input
                         value={editedData.nombre}
@@ -129,17 +131,17 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
                         size="sm"
                       />
                     ) : (
-                      <p className="text-gray-900">{contact.nombre}</p>
+                      <p className="text-foreground">{contact.nombre}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-500">Email</label>
-                    <p className="text-gray-900">{contact.email}</p>
+                    <label className="text-sm text-default-500">Email</label>
+                    <p className="text-foreground">{contact.email}</p>
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-500">Teléfono</label>
+                    <label className="text-sm text-default-500">Teléfono</label>
                     {isEditing ? (
                       <Input
                         value={editedData.telefono}
@@ -148,12 +150,12 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
                         size="sm"
                       />
                     ) : (
-                      <p className="text-gray-900">{contact.telefono}</p>
+                      <p className="text-foreground">{contact.telefono}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-500">Empresa</label>
+                    <label className="text-sm text-default-500">Empresa</label>
                     {isEditing ? (
                       <Input
                         value={editedData.empresa}
@@ -162,12 +164,12 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
                         size="sm"
                       />
                     ) : (
-                      <p className="text-gray-900">{contact.empresa}</p>
+                      <p className="text-foreground">{contact.empresa}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-500">Etiquetas</label>
+                    <label className="text-sm text-default-500">Etiquetas</label>
                     <div className="flex gap-1 mt-1">
                       {contact.etiquetas.map((tag, index) => (
                         <Chip key={index} size="sm" variant="flat" radius="md">
@@ -206,17 +208,17 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
               </Tab>
 
               <Tab key="deals" title="Negocios vinculados">
-                <div className="py-4">
+                <div className="space-y-4 py-4 px-6">
                   {contactDeals.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">
+                    <p className="text-default-500 text-center py-8">
                       No hay negocios vinculados
                     </p>
                   ) : (
                     <Table
                       aria-label="Negocios vinculados"
                       classNames={{
-                        wrapper: "shadow-none",
-                        th: "bg-gray-50 text-gray-600 font-medium text-xs",
+                        wrapper: "shadow-none p-0",
+                        th: "bg-content2 text-default-600 font-medium text-xs",
                         td: "text-sm"
                       }}
                     >
@@ -227,7 +229,7 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
                       </TableHeader>
                       <TableBody>
                         {contactDeals.map((deal) => (
-                          <TableRow key={deal.id} className="cursor-pointer hover:bg-gray-50">
+                          <TableRow key={deal.id} className="cursor-pointer hover:bg-content2">
                             <TableCell>{deal.nombreNegocio}</TableCell>
                             <TableCell>
                               <Chip size="sm" variant="flat" radius="md">
@@ -244,8 +246,8 @@ export const ContactDetail: React.FC<ContactDetailProps> = ({
               </Tab>
 
               <Tab key="timeline" title="Timeline IA">
-                <div className="py-4">
-                  <p className="text-gray-500 text-center py-8">
+                <div className="py-4 px-6">
+                  <p className="text-default-500 text-center py-8">
                     Timeline de actividades (IA) próximamente
                   </p>
                 </div>

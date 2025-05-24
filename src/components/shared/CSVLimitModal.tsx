@@ -27,10 +27,10 @@ export const M_CSVLimit: React.FC<CSVLimitModalProps> = ({
       onOpenChange={onClose}
       radius="lg"
       classNames={{
-        base: "bg-white",
-        header: "border-b border-gray-200",
+        base: "bg-content1",
+        header: "border-b border-divider",
         body: "py-6",
-        footer: "border-t border-gray-200"
+        footer: "border-t border-divider"
       }}
     >
       <ModalContent>
@@ -40,11 +40,11 @@ export const M_CSVLimit: React.FC<CSVLimitModalProps> = ({
               <h3 className="text-xl font-semibold">Límite de exportación excedido</h3>
             </ModalHeader>
             <ModalBody>
-              <p className="text-gray-600">
+              <p className="text-default-600">
                 Tu selección contiene <span className="font-semibold">{rowCount.toLocaleString()}</span> filas, 
                 pero el límite de exportación es de <span className="font-semibold">{maxRows.toLocaleString()}</span> filas.
               </p>
-              <p className="text-gray-600 mt-2">
+              <p className="text-default-600 mt-2">
                 Por favor, aplica filtros para reducir la cantidad de registros a exportar.
               </p>
             </ModalBody>
