@@ -20,41 +20,6 @@
       name="viewport"
     />
     <link href="/favicon.ico" rel="icon" />
-    <!-- <script>
-      // Initialize theme before React loads to prevent flash
-      (function() {
-        try {
-          const stored = localStorage.getItem('app-theme-config');
-          if (stored) {
-            const config = JSON.parse(stored);
-            // Validate theme name
-            if (['orange', 'blue'].includes(config.name) && ['light', 'dark'].includes(config.mode)) {
-              const themeKey = `${config.name}-${config.mode}`;
-              document.documentElement.classList.add(themeKey, config.mode);
-              if (config.mode === 'dark') {
-                document.documentElement.classList.add('dark');
-              }
-              document.documentElement.setAttribute('data-theme', themeKey);
-              console.log('Initial theme set:', themeKey);
-            } else {
-              // Invalid theme, reset to default
-              const defaultTheme = 'blue-light';
-              document.documentElement.classList.add(defaultTheme, 'light');
-              document.documentElement.setAttribute('data-theme', defaultTheme);
-            }
-          } else {
-            // Default theme
-            document.documentElement.classList.add('blue-light', 'light');
-            document.documentElement.setAttribute('data-theme', 'blue-light');
-          }
-        } catch (e) {
-          console.error('Failed to initialize theme:', e);
-          // Fallback to default theme
-          document.documentElement.classList.add('blue-light', 'light');
-          document.documentElement.setAttribute('data-theme', 'blue-light');
-        }
-      })();
-    </script> -->
   </head>
   <body>
     <div id="root"></div>
