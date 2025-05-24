@@ -71,10 +71,10 @@ export const DealsList: React.FC = () => {
 
   const getStageColorClasses = (stage: DealStage) => {
     const colors = {
-      lead: 'bg-gray-100 text-gray-800',
-      prospecto: 'bg-blue-100 text-blue-800',
-      cliente_ganado: 'bg-green-100 text-green-800',
-      cliente_perdido: 'bg-red-100 text-red-800'
+      lead: 'bg-default-100 text-default-700',
+      prospecto: 'bg-primary-100 text-primary-700',
+      cliente_ganado: 'bg-success-100 text-success-700',
+      cliente_perdido: 'bg-danger-100 text-danger-700'
     };
     return colors[stage];
   };
@@ -103,7 +103,7 @@ export const DealsList: React.FC = () => {
           <div className="flex items-center justify-between mb-4 md:mb-6">
             <div className="flex items-center gap-3">
               <span className="text-2xl">💼</span>
-              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Negocios</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Negocios</h1>
             </div>
           </div>
           
@@ -111,7 +111,7 @@ export const DealsList: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 md:gap-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 flex-1 w-full lg:w-auto">
               {/* View Toggle */}
-              <div className="flex bg-gray-100 rounded-2xl p-1">
+              <div className="flex bg-content2 rounded-2xl p-1">
                 <Button
                   size="sm"
                   variant="light"
@@ -126,7 +126,7 @@ export const DealsList: React.FC = () => {
                   size="sm"
                   variant="solid"
                   radius="lg"
-                  className="bg-white shadow-sm"
+                  className="bg-content1 shadow-sm"
                 >
                   <span className="text-sm">☰</span>
                 </Button>
@@ -141,7 +141,7 @@ export const DealsList: React.FC = () => {
                 radius="lg"
                 classNames={{
                   base: "w-full sm:max-w-xs",
-                  inputWrapper: "bg-gray-100 border-gray-200 hover:bg-gray-200"
+                  inputWrapper: "bg-content2 border-divider hover:bg-content3"
                 }}
               />
 
@@ -234,12 +234,12 @@ export const DealsList: React.FC = () => {
                   key={deal.id}
                   isPressable
                   onPress={() => setSelectedDealId(deal.id)}
-                  className="bg-white shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-content1 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <CardBody className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate">{deal.nombreNegocio}</h3>
+                        <h3 className="font-semibold text-foreground truncate">{deal.nombreNegocio}</h3>
                         {contact && (
                           <button
                             type="button"
@@ -267,16 +267,16 @@ export const DealsList: React.FC = () => {
                     <div className="space-y-1 text-sm">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-gray-400">💰</span>
-                          <span className="font-semibold text-gray-900">€{deal.mrr.toLocaleString()}/mes</span>
+                          <span className="text-default-400">💰</span>
+                          <span className="font-semibold text-foreground">€{deal.mrr.toLocaleString()}/mes</span>
                         </div>
                         <Chip size="sm" variant="flat" radius="md">
                           {deal.plan}
                         </Chip>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-gray-400">📅</span>
-                        <span className="text-gray-600">
+                        <span className="text-default-400">📅</span>
+                        <span className="text-default-600">
                           Últ. actividad: {deal.ultimaActividad.toLocaleDateString()}
                         </span>
                       </div>
@@ -288,7 +288,7 @@ export const DealsList: React.FC = () => {
                           size="sm" 
                           variant="flat"
                           radius="full"
-                          className="bg-purple-100 text-purple-800 text-xs"
+                          className="bg-secondary-100 text-secondary-700 text-xs"
                         >
                           <span className="mr-1">🏷</span>
                           Trial
@@ -313,9 +313,9 @@ export const DealsList: React.FC = () => {
             aria-label="Tabla de negocios"
             classNames={{
               base: "max-h-full",
-              wrapper: "bg-white rounded-2xl shadow-soft max-h-full overflow-auto",
-              th: "bg-gray-50 text-gray-600 font-medium text-sm",
-              td: "text-gray-900 text-sm",
+              wrapper: "bg-content1 rounded-2xl shadow-soft max-h-full overflow-auto",
+              th: "bg-content2 text-default-600 font-medium text-sm",
+              td: "text-foreground text-sm",
               table: "min-w-full"
             }}
             selectionMode="single"
@@ -336,7 +336,7 @@ export const DealsList: React.FC = () => {
                 const contact = getContactById(deal.contactoId);
                 
                 return (
-                  <TableRow key={deal.id} className="cursor-pointer hover:bg-gray-50">
+                  <TableRow key={deal.id} className="cursor-pointer hover:bg-content2">
                     <TableCell className="font-medium">{deal.nombreNegocio}</TableCell>
                     <TableCell>
                       {contact && (
@@ -401,7 +401,7 @@ export const DealsList: React.FC = () => {
         </div>
 
         {/* Deal count */}
-        <div className="mt-3 md:mt-4 text-xs sm:text-sm text-gray-500">
+        <div className="mt-3 md:mt-4 text-xs sm:text-sm text-default-500">
           Mostrando {filteredDeals.length} de {deals.length} negocios
         </div>
       </motion.div>
