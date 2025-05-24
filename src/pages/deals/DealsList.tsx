@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Table,
   TableHeader,
@@ -32,6 +32,24 @@ export const DealsList: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [planFilter, setPlanFilter] = useState<string | null>(null);
   const [stageFilter, setStageFilter] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Check if screen is desktop size to conditionally render table
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // lg breakpoint is 1024px in Tailwind
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   // Filter deals
   const filteredDeals = useMemo(() => {
@@ -307,98 +325,93 @@ export const DealsList: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop Table View (visible on lg and above) */}
-        <div className="flex-1 overflow-hidden hidden lg:block">
-          <Table
-            aria-label="Tabla de negocios"
-            classNames={{
-              base: "max-h-full",
-              wrapper: "bg-content1 rounded-2xl shadow-soft max-h-full overflow-auto",
-              th: "bg-content2 text-default-600 font-medium text-sm",
-              td: "text-foreground text-sm",
-              table: "min-w-full"
-            }}
-            selectionMode="single"
-            onRowAction={(key) => setSelectedDealId(key as string)}
-          >
-            <TableHeader>
-              <TableColumn minWidth={150}>Nombre negocio</TableColumn>
-              <TableColumn minWidth={120}>Contacto</TableColumn>
-              <TableColumn minWidth={120}>Etapa</TableColumn>
-              <TableColumn minWidth={100}>Plan</TableColumn>
-              <TableColumn minWidth={100}>MRR</TableColumn>
-              <TableColumn minWidth={80}>⚠️</TableColumn>
-              <TableColumn minWidth={80}>🏷</TableColumn>
-              <TableColumn minWidth={120}>Últ. actividad</TableColumn>
-            </TableHeader>
-            <TableBody items={filteredDeals}>
-              {(deal) => {
-                const contact = getContactById(deal.contactoId);
-                
-                return (
-                  <TableRow key={deal.id} className="cursor-pointer hover:bg-content2">
-                    <TableCell className="font-medium">{deal.nombreNegocio}</TableCell>
-                    <TableCell>
-                      {contact && (
-                        <Link 
-                          to={`/contacts/${contact.id}`}
-                          className="text-primary hover:underline"
+        {/* Desktop Table View (conditionally rendered based on state) */}
+        {isDesktop && (
+          <div className="flex-1">
+            <Table
+              aria-label="Tabla de negocios"
+              selectionMode="single"
+              onRowAction={(key) => setSelectedDealId(key as string)}
+            >
+              <TableHeader>
+                <TableColumn minWidth={150}>Nombre negocio</TableColumn>
+                <TableColumn minWidth={120}>Contacto</TableColumn>
+                <TableColumn minWidth={120}>Etapa</TableColumn>
+                <TableColumn minWidth={100}>Plan</TableColumn>
+                <TableColumn minWidth={100}>MRR</TableColumn>
+                <TableColumn minWidth={80}>⚠️</TableColumn>
+                <TableColumn minWidth={80}>🏷</TableColumn>
+                <TableColumn minWidth={120}>Últ. actividad</TableColumn>
+              </TableHeader>
+              <TableBody items={filteredDeals}>
+                {(deal) => {
+                  const contact = getContactById(deal.contactoId);
+                  
+                  return (
+                    <TableRow key={deal.id} className="cursor-pointer hover:bg-content2">
+                      <TableCell className="font-medium">{deal.nombreNegocio}</TableCell>
+                      <TableCell>
+                        {contact && (
+                          <Link 
+                            to={`/contacts/${contact.id}`}
+                            className="text-primary hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {contact.nombre}
+                          </Link>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          aria-label="Etapa"
+                          selectedKeys={[deal.etapa]}
+                          onSelectionChange={(keys) => {
+                            changeStage(deal.id, Array.from(keys)[0] as DealStage);
+                          }}
+                          size="sm"
+                          radius="md"
+                          classNames={{
+                            trigger: "min-h-unit-8 h-8",
+                          }}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          {contact.nombre}
-                        </Link>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        aria-label="Etapa"
-                        selectedKeys={[deal.etapa]}
-                        onSelectionChange={(keys) => {
-                          changeStage(deal.id, Array.from(keys)[0] as DealStage);
-                        }}
-                        size="sm"
-                        radius="md"
-                        classNames={{
-                          trigger: "min-h-unit-8 h-8",
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {stageOptions.map(option => (
-                          <SelectItem key={option.key}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Chip size="sm" variant="flat" radius="md">
-                        {deal.plan}
-                      </Chip>
-                    </TableCell>
-                    <TableCell className="font-semibold">
-                      €{deal.mrr.toLocaleString()}/mes
-                    </TableCell>
-                    <TableCell>
-                      {deal.impago && (
-                        <Chip color="danger" size="sm" variant="flat" radius="md">
-                          Impago
+                          {stageOptions.map(option => (
+                            <SelectItem key={option.key}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      </TableCell>
+                      <TableCell>
+                        <Chip size="sm" variant="flat" radius="md">
+                          {deal.plan}
                         </Chip>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {deal.trial && (
-                        <Chip color="secondary" size="sm" variant="flat" radius="md">
-                          Trial
-                        </Chip>
-                      )}
-                    </TableCell>
-                    <TableCell>{deal.ultimaActividad.toLocaleDateString()}</TableCell>
-                  </TableRow>
-                );
-              }}
-            </TableBody>
-          </Table>
-        </div>
+                      </TableCell>
+                      <TableCell className="font-semibold">
+                        €{deal.mrr.toLocaleString()}/mes
+                      </TableCell>
+                      <TableCell>
+                        {deal.impago && (
+                          <Chip color="danger" size="sm" variant="flat" radius="md">
+                            Impago
+                          </Chip>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {deal.trial && (
+                          <Chip color="secondary" size="sm" variant="flat" radius="md">
+                            Trial
+                          </Chip>
+                        )}
+                      </TableCell>
+                      <TableCell>{deal.ultimaActividad.toLocaleDateString()}</TableCell>
+                    </TableRow>
+                  );
+                }}
+              </TableBody>
+            </Table>
+          </div>
+        )}
 
         {/* Deal count */}
         <div className="mt-3 md:mt-4 text-xs sm:text-sm text-default-500">

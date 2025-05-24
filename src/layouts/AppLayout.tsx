@@ -14,7 +14,6 @@ export const AppLayout: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems: NavItem[] = [
-    { path: '/home', icon: '🏠', label: 'Home' },
     { path: '/contacts', icon: '📇', label: 'Contactos' },
     { path: '/deals', icon: '💼', label: 'Negocios' },
   ];

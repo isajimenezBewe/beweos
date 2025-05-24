@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Table,
   TableHeader,
@@ -28,6 +28,24 @@ export const ContactsTable: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Check if screen is desktop size to conditionally render table
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // lg breakpoint is 1024px in Tailwind
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   // Filter contacts
   const filteredContacts = useMemo(() => {
@@ -239,73 +257,68 @@ export const ContactsTable: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop Table View (visible on lg and above) */}
-        <div className="flex-1 overflow-hidden hidden lg:block">
-          <Table
-            aria-label="Tabla de contactos"
-            classNames={{
-              base: "max-h-full",
-              wrapper: "bg-content1 rounded-2xl shadow-soft max-h-full overflow-auto",
-              th: "bg-content2 text-default-600 font-medium text-sm",
-              td: "text-foreground text-sm",
-              table: "min-w-full"
-            }}
-            selectionMode="single"
-            onRowAction={(key) => setSelectedContactId(key as string)}
-          >
-            <TableHeader>
-              <TableColumn minWidth={150}>Nombre</TableColumn>
-              <TableColumn minWidth={120}>Empresa</TableColumn>
-              <TableColumn minWidth={100}>Estado</TableColumn>
-              <TableColumn minWidth={120}>Últ. actividad</TableColumn>
-              <TableColumn minWidth={120}>Teléfono</TableColumn>
-              <TableColumn minWidth={200}>Email</TableColumn>
-              <TableColumn minWidth={150}>Etiquetas</TableColumn>
-              <TableColumn minWidth={80}>⚠️</TableColumn>
-            </TableHeader>
-            <TableBody items={filteredContacts}>
-              {(contact) => (
-                <TableRow key={contact.id} className="cursor-pointer hover:bg-content2">
-                  <TableCell className="font-medium">{contact.nombre}</TableCell>
-                  <TableCell>{contact.empresa}</TableCell>
-                  <TableCell>
-                    <StatusBadge status={contact.estado} />
-                  </TableCell>
-                  <TableCell>
-                    {contact.ultimaActividad.toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>{contact.telefono}</TableCell>
-                  <TableCell>
-                    <p className="truncate max-w-[200px]" title={contact.email}>
-                      {contact.email}
-                    </p>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-1 flex-wrap">
-                      {contact.etiquetas.slice(0, 3).map((tag, index) => (
-                        <Chip key={index} size="sm" variant="flat" radius="md">
-                          {tag}
-                        </Chip>
-                      ))}
-                      {contact.etiquetas.length > 3 && (
-                        <Chip size="sm" variant="flat" radius="md">
-                          +{contact.etiquetas.length - 3}
+        {/* Desktop Table View (conditionally rendered based on state) */}
+        {isDesktop && (
+          <div className="flex-1">
+            <Table
+              aria-label="Tabla de contactos"
+              selectionMode="single"
+              onRowAction={(key) => setSelectedContactId(key as string)}
+            >
+              <TableHeader>
+                <TableColumn minWidth={150}>Nombre</TableColumn>
+                <TableColumn minWidth={120}>Empresa</TableColumn>
+                <TableColumn minWidth={100}>Estado</TableColumn>
+                <TableColumn minWidth={120}>Últ. actividad</TableColumn>
+                <TableColumn minWidth={120}>Teléfono</TableColumn>
+                <TableColumn minWidth={200}>Email</TableColumn>
+                <TableColumn minWidth={150}>Etiquetas</TableColumn>
+                <TableColumn minWidth={80}>⚠️</TableColumn>
+              </TableHeader>
+              <TableBody items={filteredContacts}>
+                {(contact) => (
+                  <TableRow key={contact.id} className="cursor-pointer hover:bg-content2">
+                    <TableCell className="font-medium">{contact.nombre}</TableCell>
+                    <TableCell>{contact.empresa}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={contact.estado} />
+                    </TableCell>
+                    <TableCell>
+                      {contact.ultimaActividad.toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{contact.telefono}</TableCell>
+                    <TableCell>
+                      <p className="truncate max-w-[200px]" title={contact.email}>
+                        {contact.email}
+                      </p>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-1 flex-wrap">
+                        {contact.etiquetas.slice(0, 3).map((tag, index) => (
+                          <Chip key={index} size="sm" variant="flat" radius="md">
+                            {tag}
+                          </Chip>
+                        ))}
+                        {contact.etiquetas.length > 3 && (
+                          <Chip size="sm" variant="flat" radius="md">
+                            +{contact.etiquetas.length - 3}
+                          </Chip>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {contact.impago && (
+                        <Chip color="danger" size="sm" variant="flat" radius="md">
+                          Impago
                         </Chip>
                       )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {contact.impago && (
-                      <Chip color="danger" size="sm" variant="flat" radius="md">
-                        Impago
-                      </Chip>
-                    )}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        )}
 
         {/* Contact count */}
         <div className="mt-3 md:mt-4 text-xs sm:text-sm text-default-500">
