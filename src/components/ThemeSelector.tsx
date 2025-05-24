@@ -7,8 +7,11 @@ export const ThemeSelector: React.FC = () => {
   const { currentColor, currentMode, setColor, toggleMode } = useTheme();
 
   const colorOptions = [
-    { value: 'blue', label: '🔵 Blue', color: '#3B82F6' },
-    { value: 'purple', label: '� Purple', color: '#DD62ED' },
+    { value: 'blue', label: '💙 Blue', color: '#006FEE' },
+    { value: 'purple', label: '💜 Purple', color: '#9823C2' },
+    { value: 'green', label: '💚 Green', color: '#12A150' },
+    { value: 'orange', label: '🧡 Orange', color: '#C46C08' },
+    { value: 'yellow', label: '💛 Yellow', color: '#C4AE08' },
   ];
 
   return (
@@ -20,7 +23,7 @@ export const ThemeSelector: React.FC = () => {
         onSelectionChange={(keys: any) => {
           const value = Array.from(keys)[0];
           if (value) {
-            setColor(value as 'blue' | 'orange');
+            setColor(value as 'blue' | 'purple' | 'green' | 'orange' | 'yellow');
           }
         }}
         classNames={{

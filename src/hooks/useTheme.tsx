@@ -1,7 +1,7 @@
 import { useTheme as useHeroUITheme } from '@heroui/use-theme';
 import { useEffect } from 'react';
 
-type ThemeColor = 'blue' | 'purple';
+type ThemeColor = 'blue' | 'purple' | 'green' | 'orange' | 'yellow';
 type ThemeMode = 'light' | 'dark';
 
 export function useTheme() {
@@ -10,11 +10,14 @@ export function useTheme() {
   // Determine current color and mode from theme string
   const getCurrentColor = (): ThemeColor => {
     if (theme === 'purple' || theme === 'purple-dark') return 'purple';
+    if (theme === 'green' || theme === 'green-dark') return 'green';
+    if (theme === 'orange' || theme === 'orange-dark') return 'orange';
+    if (theme === 'yellow' || theme === 'yellow-dark') return 'yellow';
     return 'blue'; // default for 'light' and 'dark' themes
   };
   
   const getCurrentMode = (): ThemeMode => {
-    if (theme === 'dark' || theme === 'purple-dark') return 'dark';
+    if (theme === 'dark' || theme?.endsWith('-dark')) return 'dark';
     return 'light';
   };
   
